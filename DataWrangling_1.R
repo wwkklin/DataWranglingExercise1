@@ -52,13 +52,13 @@ mydata<- separate(mydata, Product.code...number, c("product_code","product_numbe
 # 3: Add product categories
 category <- function(x) {
   if (x=="p"){
-      x <-"Smartphone" 
+      return("Smartphone") 
   }   else if (x=="v"){
-      x <- "TV"
+      return("TV")
   }   else if (x=="x"){ 
-      x <-"Laptop"
+      return("Laptop")
   }   else if (x=="q"){ 
-      x <- "Tablet" 
+      return("Tablet") 
   }
 }
 mydata <- mutate(mydata,category = sapply(product_code, category))
@@ -71,24 +71,53 @@ mydata<- mutate( mydata, full_address = paste (address,",", city,",", country))
 
 # 5-1: Add four binary (1 or 0) columns for company: 
 # company_philips, company_akzo, company_van_houten and company_unilever.
-company_p <- function(x){ if (x=="philips"){ x<- "1"} else (x <- "0")}
-mydata<- mutate(mydata, company_philips    = sapply(company, company_p))
-company_a <- function(x){ if (x=="akzo"){ x<- "1"} else (x <- "0")}
-mydata<- mutate(mydata, company_akzo       = sapply(company, company_a))
-company_v <- function(x){ if (x=="van houten"){ x<- "1"} else (x <- "0")}
+company_p <- function(x){ 
+             if (x=="philips"){ 
+                 return("1")} 
+           else (return("0"))}
+mydata<- mutate(mydata, company_philips= sapply(company, company_p))
+
+company_a <- function(x){ 
+             if (x=="akzo"){
+                 return("1")} 
+           else (return("0"))}
+mydata<- mutate(mydata, company_akzo = sapply(company, company_a))
+
+company_v <- function(x){ 
+             if (x=="van houten"){
+                 return("1")} 
+           else (return("0"))}
 mydata<- mutate(mydata, company_van_houten = sapply(company, company_v))
-company_u <- function(x){ if (x=="unilever"){ x<- "1"} else (x <- "0")}
+
+company_u <- function(x){
+             if (x=="unilever"){
+                 return("1")} 
+           else (return("0"))}
 mydata<- mutate(mydata, company_unilever   = sapply(company, company_u))
 
 # 5-2: Add four binary (1 or 0) columns for product: 
 # product_smartphone, product_tv, product_laptop and product_tablet.
-product_p <- function(x){ if (x=="p"){ x<- "1"} else (x <- "0")}
+product_p <- function(x){
+             if (x=="p"){ 
+                 return ("1")} 
+           else (return ("0"))}
 mydata<- mutate(mydata, product_smartphone = sapply(product_code, product_p))
-product_v <- function(x){ if (x=="v"){ x<- "1"} else (x <- "0")}
+
+product_v <- function(x){ 
+             if (x=="v"){ 
+                 return ("1")} 
+           else (return ("0"))}
 mydata<- mutate(mydata, product_tv = sapply(product_code, product_v))
-product_x <- function(x){ if (x=="x"){ x<- "1"} else (x <- "0")}
+
+product_x <- function(x){
+             if (x=="x"){
+                 return ("1")} 
+           else (return ("0"))}
 mydata<- mutate(mydata, product_laptop = sapply(product_code, product_x))
-product_q <- function(x){ if (x=="q"){ x<- "1"} else (x <- "0")}
+
+product_q <- function(x){
+             if (x=="q"){ return ("1")} 
+           else (return ("0"))}
 mydata<- mutate(mydata, product_tablet = sapply(product_code, product_q))
 
 # A better approach learned from "chiragpandya88" https://github.com/chiragpandya88/electronicstore/blob/master/refine.R
