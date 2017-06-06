@@ -99,4 +99,3 @@ mydata<- mutate(mydata, product_tablet = sapply(product_code, product_q))
 
 # Save cleaned data as CSV file
 write.csv(mydata, "cleaned_data.csv")
-
