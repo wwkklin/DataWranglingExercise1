@@ -69,62 +69,44 @@ mydata<- mutate( mydata, full_address = paste (address,",", city,",", country))
 # mydata<- unite (mydata, "full_address", address, city, country, sep=",")
 
 
-# 5-1: Add four binary (1 or 0) columns for company: 
+# 5-1: Add four binary (1 or 0) columns for company and product: 
 # company_philips, company_akzo, company_van_houten and company_unilever.
-company_p <- function(x){ 
-             if (x=="philips"){ 
-                 return("1")} 
-           else (return("0"))}
-mydata<- mutate(mydata, company_philips= sapply(company, company_p))
 
-company_a <- function(x){ 
-             if (x=="akzo"){
-                 return("1")} 
-           else (return("0"))}
-mydata<- mutate(mydata, company_akzo = sapply(company, company_a))
-
-company_v <- function(x){ 
-             if (x=="van houten"){
-                 return("1")} 
-           else (return("0"))}
-mydata<- mutate(mydata, company_van_houten = sapply(company, company_v))
-
-company_u <- function(x){
-             if (x=="unilever"){
-                 return("1")} 
-           else (return("0"))}
-mydata<- mutate(mydata, company_unilever   = sapply(company, company_u))
-
-# 5-2: Add four binary (1 or 0) columns for product: 
+# 5.2: Add four binary (1 or 0) columns for product category: 
 # product_smartphone, product_tv, product_laptop and product_tablet.
-product_p <- function(x){
-             if (x=="p"){ 
-                 return ("1")} 
-           else (return ("0"))}
-mydata<- mutate(mydata, product_smartphone = sapply(product_code, product_p))
 
-product_v <- function(x){ 
-             if (x=="v"){ 
-                 return ("1")} 
-           else (return ("0"))}
-mydata<- mutate(mydata, product_tv = sapply(product_code, product_v))
+mydata <- mutate(mydata, company_philips     = ifelse(company == "philips",1,0))
+mydata <- mutate(mydata, company_akzo        = ifelse(company == "akzo",1,0))
+mydata <- mutate(mydata, company_van_houten  = ifelse(company == "van houten",1,0))
+mydata <- mutate(mydata, company_unilever    = ifelse(company == "unilever",1,0))
 
-product_x <- function(x){
-             if (x=="x"){
-                 return ("1")} 
-           else (return ("0"))}
-mydata<- mutate(mydata, product_laptop = sapply(product_code, product_x))
+mydata <- mutate(mydata, product_smartphone = ifelse(product_code == "p",1,0))
+mydata <- mutate(mydata,product_tv          = ifelse(product_code == "v",1,0))
+mydata <- mutate(mydata, product_laptop     = ifelse(product_code == "x",1,0))
+mydata <- mutate(mydata, product_tablet     = ifelse(product_code == "q",1,0))
 
-product_q <- function(x){
-             if (x=="q"){ return ("1")} 
-           else (return ("0"))}
-mydata<- mutate(mydata, product_tablet = sapply(product_code, product_q))
-
-# A better approach learned from "chiragpandya88" https://github.com/chiragpandya88/electronicstore/blob/master/refine.R
+# Other approach learned from "chiragpandya88" https://github.com/chiragpandya88/electronicstore/blob/master/refine.R
 # 1. Use LogicalTest to test if mydata$company == "philips"
 # 2. Return the logical results into a binary numeric dataset (TRUE =1 and FALSE=0)
 # 3. Use this dataset to create the corresponding binary (1 or 0) columns
-# 4. Ex: mydata <- mutate(mydata,company_philips = as.numeric((company == "philips")))
+# 4. Ex: mydata <- mutate(mydata, company_philips = as.numeric((company == "philips")))
+
+# mydata <- mutate(mydata, company_philips = as.numeric((company == "philips")))
+# mydata <- mutate(mydata, company_akzo = as.numeric((company == "akzo")))
+# mydata <- mutate(mydata, company_van_houten = as.numeric((company == "van houten")))
+# mydata <- mutate(mydata, company_unilever = as.numeric((company == "unilever")))
+
+# mydata <- mutate(mydata, product_smartphone = as.numeric((product_code  == "p")))
+# mydata <- mutate(mydata, product_tv = as.numeric((product_code == "v")))
+# mydata <- mutate(mydata, product_laptop = as.numeric((product_code  == "x")))
+# mydata <- mutate(mydata, product_tablet = as.numeric((product_code  == "q")))
+
+# My old approach example:
+# company_p <- function(x){ 
+#             if (x=="philips"){ 
+#                 return("1")} 
+#           else (return("0"))}
+# mydata<- mutate(mydata, company_philips= sapply(company, company_p))
 
 # Save cleaned data as CSV file
 write.csv(mydata, "cleaned_data.csv")
